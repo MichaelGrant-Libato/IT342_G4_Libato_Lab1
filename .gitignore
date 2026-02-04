@@ -1,0 +1,21 @@
+# --- IDE Settings ---
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# --- Backend (Spring Boot) ---
+/backend/target/
+/backend/out/
+/backend/.mvn/
+/backend/mvnw
+/backend/mvnw.cmd
+/backend/*.log
+
+# --- Web (React/Node) ---
+/web/node_modules/
+/web/build/
+/web/dist/
+/web/.env
+/web/.env.local
+/web/coverage/
