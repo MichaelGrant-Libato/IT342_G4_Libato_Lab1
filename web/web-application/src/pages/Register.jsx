@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: ""
+        username: '',
+        email: '',
+        password: ''
     });
     const navigate = useNavigate();
 
@@ -17,45 +17,27 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/api/auth/register", formData);
-            alert("Registration Successful! Please login.");
-            navigate("/"); 
+            const response = await axios.post('http://localhost:8080/api/auth/register', formData);
+            if (response.status === 200) {
+                alert("Registration Successful! Please Login.");
+                navigate('/'); // Redirect to Login page
+            }
         } catch (error) {
-            console.error(error);
-            alert("Registration Failed: " + (error.response?.data || "Unknown Error"));
+            // Display the specific error message from the backend 
+            alert(error.response?.data || "Registration Failed");
         }
     };
 
     return (
-        <div className="container">
+        <div className="auth-container">
             <h2>Register</h2>
             <form onSubmit={handleRegister}>
-                <input 
-                    type="text" 
-                    name="username"
-                    placeholder="Username" 
-                    onChange={handleChange} 
-                    required
-                />
-                <input 
-                    type="email" 
-                    name="email"
-                    placeholder="Email" 
-                    onChange={handleChange} 
-                    required
-                />
-                <input 
-                    type="password" 
-                    name="password"
-                    placeholder="Password" 
-                    onChange={handleChange} 
-                    required
-                />
-                <button type="submit">Sign Up</button>
+                <input name="username" placeholder="Username" onChange={handleChange} required />
+                <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
+                <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
+                <button type="submit">Register</button>
             </form>
-            <button className="link-btn" onClick={() => navigate('/')}>
-                Already have an account? Login here.
-            </button>
+            <p>Already have an account? <a href="/">Login</a></p>
         </div>
     );
 };
