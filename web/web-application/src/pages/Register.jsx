@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import '../App.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -9,6 +10,13 @@ const Register = () => {
         password: ''
     });
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +31,6 @@ const Register = () => {
                 navigate('/'); // Redirect to Login page
             }
         } catch (error) {
-            // Display the specific error message from the backend 
             alert(error.response?.data || "Registration Failed");
         }
     };
@@ -32,12 +39,18 @@ const Register = () => {
         <div className="auth-container">
             <h2>Register</h2>
             <form onSubmit={handleRegister}>
-                <input name="username" placeholder="Username" onChange={handleChange} required />
-                <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
-                <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
+                <div className="form-group">
+                    <input name="username" placeholder="Username" onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <input name="email" placeholder="Email" type="email" onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <input name="password" placeholder="Password" type="password" onChange={handleChange} required />
+                </div>
                 <button type="submit">Register</button>
             </form>
-            <p>Already have an account? <a href="/">Login</a></p>
+            <p>Already have an account? <Link to="/">Login</Link></p>
         </div>
     );
 };
