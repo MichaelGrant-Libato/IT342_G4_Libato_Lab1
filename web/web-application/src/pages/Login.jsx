@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '../App.css'; 
 
 const Login = () => {
     const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -51,7 +59,8 @@ const Login = () => {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <p>Don't have an account? <a href="/register">Register</a></p>
+            
+            <p>Don't have an account? <Link to="/register">Register</Link></p>
         </div>
     );
 };
